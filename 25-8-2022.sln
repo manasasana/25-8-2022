@@ -1,0 +1,58 @@
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+
+namespace day11;
+public class one
+{
+    public static void Main(string[] args)
+    {
+        string connection = ConfigurationManager.ConnectionStrings["Mykey"].ConnectionString;
+        SqlConnection sqlcon = new SqlConnection(connection);
+        sqlcon.Open();
+       // Console.WriteLine("enter id");
+        //int id = Convert.ToInt32(Console.ReadLine());
+        //String QueryString = "select student.dbo.resultdetails()";
+       // Console.WriteLine(QueryString);
+        //SqlCommand cmd = new SqlCommand("select * from resultdetails(@id)", sqlcon);
+       // cmd.Parameters.Add("@id", System.Data.SqlDbType.Int).Value = id;
+        // Console.WriteLine(cmd.CommandText.ToString());
+        //String res = cmd.ExecuteScalar().ToString();
+        /*if (res==null || res==String.Empty)
+        {
+            Console.WriteLine("give a valid id");
+        }
+        else
+        {
+            Console.WriteLine("The grade is"+ res);
+        }
+        */
+
+        Console.WriteLine("qeury before");
+        //Console.WriteLine(cmd.CommandText.ToString());
+        int id = Convert.ToInt32(Console.ReadLine());
+
+        SqlCommand cmd = new SqlCommand("select * from resultdetails(@id)", sqlcon);
+        //cmd.Parameters.AddWithValue("@id", id);
+        cmd.Parameters.Add("@id", System.Data.SqlDbType.Int).Value = id;
+        Console.WriteLine(cmd.CommandText.ToString());
+        //SqlDataAdapter da = new SqlDataAdapter(cmd.CommandText.ToString(), sqlcon);
+        /*DataTable dt = new DataTable();
+        da.Fill(dt);    
+        foreach (DataRow dr in dt.Rows)
+        {
+            Console.WriteLine(dr[0].ToString()+ " "+ dr[1].ToString());    
+        }*/
+        SqlDataReader dr= cmd.ExecuteReader();
+        while (dr.Read())
+        {
+            Console.WriteLine(dr[0].ToString() + " " + dr[1].ToString());
+        }
+        dr.Close();
+        sqlcon.Close();
+    }
+}
+
+
+        
+      
