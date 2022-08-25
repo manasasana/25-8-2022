@@ -1,9 +1,9 @@
 create or alter  function highamt()
 returns @BankDetails table  
-(AccNo int,OpenDate date, LastTransactionDate date) as
+(AccNo int,Cname varchar(10), Aadhar bigint ,OpenedDate date, LastTransactionDate date) as
 begin  
     insert into @BankDetails
-	select a.AccNo,b.OpenDate,b.LastTransactionDate from AccInfo a inner join BankDetails b 
+	select a.AccNo,a.Cname,a.Aadhar,b.OpenDate,b.LastTransactionDate from AccInfo a inner join BankDetails b 
 	on a.AccNo=B.AccNo where a.Amt>200000;
 return  
 end; 
