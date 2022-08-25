@@ -1,0 +1,60 @@
+1.Write a C# program to display Account details and Customer information of users 
+(Account number, Customer name, Aadhar number, Account opened date, date of last transaction, etc) 
+whose account balance is greater than 200000. Pull information from 2 tables, Use UDF and display information on screen.
+
+using System.Configuration;
+using System.Data.SqlClient;
+namespace day11;
+public class one
+{
+    public static void Main(string[] args)
+    {
+        string connection = ConfigurationManager.ConnectionStrings["Mykey"].ConnectionString;
+        SqlConnection sqlcon = new SqlConnection(connection);
+        sqlcon.Open();
+        Console.WriteLine("Account details");
+        SqlCommand cmd = new SqlCommand("select * from highamt()", sqlcon);
+        Console.WriteLine(cmd.CommandText.ToString());
+        SqlDataReader dr = cmd.ExecuteReader();
+        while (dr.Read())
+        {
+            Console.WriteLine(dr[0].ToString() + " " + dr[1].ToString() + " "+ dr[2].ToString()
+                + " " + dr[3].ToString() + " " + dr[4].ToString());
+        }
+        dr.Close();
+        sqlcon.Close();
+    }
+}
+
+2. Write a C# program and display Movie information to customers, according to the genre they choose:
+If they say, "horror" , atleast 5 horror movies must be displayed; 
+similarly if they choose 'kids' , animation and kids friendly movies should be displayed. Use UDF and display information on screen.
+
+using System.Configuration;
+using System.Data.SqlClient;
+namespace day11;
+public class one
+{
+    public static void Main(string[] args)
+    {
+        string connection = ConfigurationManager.ConnectionStrings["Mykey"].ConnectionString;
+        SqlConnection sqlcon = new SqlConnection(connection);
+        sqlcon.Open();
+        Console.WriteLine("enter movie category");
+        String QueryString = "select student.dbo.show()";
+        Console.WriteLine(QueryString);
+        String cat=Console.ReadLine();
+        SqlCommand cmd = new SqlCommand("select * from show(@cat)", sqlcon);
+        cmd.Parameters.Add("@cat", System.Data.SqlDbType.VarChar).Value = cat;
+        Console.WriteLine(cmd.CommandText.ToString());
+        SqlDataReader dr = cmd.ExecuteReader();
+        while (dr.Read())
+        {
+            Console.WriteLine(dr[0].ToString() + " " + dr[1].ToString());
+        }
+        dr.Close();
+        sqlcon.Close();
+
+    }
+}
+
